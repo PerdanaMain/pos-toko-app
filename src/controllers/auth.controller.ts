@@ -1,34 +1,43 @@
 import { Request, Response } from "express";
-import AdminServices from "../services/admin.services";
-import bcrypt from "bcrypt";
+import AuthService from "../services/auth.services";
 
 class AuthController {
-  register = async (req: Request, res: Response): Promise<void> => {
-    // Your registration logic here
+  register = async (req: Request, res: Response) => {
     try {
       const { name, email, password } = req.body;
 
-      const exist = await AdminServices.findByEmail(email);
-
-      if (exist) {
-        res.status(400).json({ error: "User already exists" });
-        return;
-      }
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      await AdminServices.createAdmin({
-        name,
-        email,
-        password: hashedPassword,
+      await AuthService.register({ name, email, password });
+      res.status(201).json({
+        status: true,
+        message: "User registered successfully",
+        data: null,
       });
-
-      res.status(201).json({ message: "User registered successfully" });
     } catch (error: Error | any) {
-      res.status(500).json({ error: `Internal Server Error: ${error}` });
+      res.status(500).json({
+        status: true,
+        message: `Internal Server Error: ${error}`,
+        data: null,
+      });
     }
   };
   login = async (req: Request, res: Response) => {
-    // login logic
+    try {
+      const { email, password } = req.body;
+
+      const result = await AuthService.login({ email, password });
+
+      res.status(201).json({
+        status: true,
+        message: "User login successfully",
+        data: result,
+      });
+    } catch (error: Error | any) {
+      res.status(500).json({
+        status: true,
+        data: null,
+        error: `Internal Server Error: ${error}`,
+      });
+    }
   };
   logout = async (req: Request, res: Response) => {};
 }

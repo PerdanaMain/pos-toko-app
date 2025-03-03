@@ -11,5 +11,10 @@ router.post(
   Validation.validateRequest(Schema.registerSchema),
   AuthController.register
 );
+router.post(
+  prefix + "/auth/login",
+  Validation.validateRequest(Schema.loginSchema),
+  AuthController.login
+);
 
 export default router;
