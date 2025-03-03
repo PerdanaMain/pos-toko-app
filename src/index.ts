@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
+import Database from "./utils/database";
 
 const main = () => {
   dotenv.config();
@@ -13,10 +14,13 @@ const main = () => {
 
   const port = process.env.PORT || 3000;
 
-  app.get("/", (req, res) => {
+  const database = new Database();
+
+  app.get("/", async (req, res) => {
     res.status(200).send({
       status: true,
       message: "Welcome to the API",
+      dbConnection: await database.connect(),
     });
   });
 
