@@ -15,7 +15,7 @@ class AuthController {
     } catch (error: Error | any) {
       res.status(500).json({
         status: true,
-        message: `Internal Server Error: ${error}`,
+        message: error?.message,
         data: null,
       });
     }
@@ -35,11 +35,11 @@ class AuthController {
       res.status(500).json({
         status: true,
         data: null,
-        error: `Internal Server Error: ${error}`,
+        error: error?.message,
       });
     }
   };
-  logout = async (req: Request, res: Response) => {};
+  // logout = async (req: Request, res: Response) => {};
 }
 
 export default new AuthController();

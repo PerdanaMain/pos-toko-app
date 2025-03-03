@@ -5,6 +5,12 @@ export interface Admin {
   password: string;
 }
 
+export interface Inventory {
+  id: string;
+  name: string;
+  description: string;
+}
+
 export interface IRegisterPayload {
   name: string;
   email: string;
@@ -25,4 +31,9 @@ export interface IToken {
 export interface ILoginResponse {
   admin: Admin;
   token: string;
+}
+
+export interface IInventoryPayload {
+  name: string;
+  description: string;
 }
