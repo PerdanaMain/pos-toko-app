@@ -3,6 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import Database from "./utils/database";
+import router from "./routes/api";
 
 const main = () => {
   dotenv.config();
@@ -23,6 +24,8 @@ const main = () => {
       dbConnection: await database.connect(),
     });
   });
+
+  app.use(router);
 
   app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
