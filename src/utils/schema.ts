@@ -40,6 +40,18 @@ class Schema {
         { message: "Unsupported file format. Use JPEG, PNG or JPG" }
       ),
   });
+
+  cartSchema = z.object({
+    name: z.string().min(3),
+    email: z.string().email(),
+    phone: z.string().min(11),
+    items: z.array(
+      z.object({
+        productId: z.string(),
+        quantity: z.number().min(1),
+      })
+    ),
+  });
 }
 
 export default new Schema();

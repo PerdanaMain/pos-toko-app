@@ -2,6 +2,7 @@ import express from "express";
 import AuthController from "../controllers/auth.controller";
 import InventoryController from "../controllers/inventory.controller";
 import ProductController from "../controllers/product.controller";
+import CartController from "../controllers/cart.controller";
 import Validation from "../middlewares/validation.middleware";
 import Verify from "../middlewares/verify.middleware";
 import Schema from "../utils/schema";
@@ -72,6 +73,14 @@ router.delete(
   prefix + "/products/:id",
   Verify.verifyToken,
   ProductController.destroy
+);
+
+// CART ROUTES
+router.get(prefix + "/cart", CartController.show);
+router.post(
+  prefix + "/cart",
+  Validation.validateRequest(Schema.cartSchema),
+  CartController.create
 );
 
 export default router;

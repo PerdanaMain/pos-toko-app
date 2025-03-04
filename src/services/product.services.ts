@@ -32,6 +32,17 @@ class ProductService {
     }));
   };
 
+  getProductsByIds = async (ids: string[]): Promise<Product[]> => {
+    return await this.prisma.products.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+      include: { inventory: true },
+    });
+  };
+
   getProduct = async (id: string): Promise<Product | null> => {
     const fetch = await this.prisma.products.findUnique({
       where: {

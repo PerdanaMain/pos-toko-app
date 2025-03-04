@@ -62,6 +62,26 @@ export interface IProductPayload {
   inventoryId: string;
 }
 
+export interface ICartPayload {
+  name: string;
+  email: string;
+  phone: string;
+  items: Array<{
+    productId: string;
+    quantity: number;
+  }>;
+}
+
+export interface Cart {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface IUserToken extends Request {
   token: string | JwtPayload;
 }

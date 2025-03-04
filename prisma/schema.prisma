@@ -9,7 +9,7 @@ datasource db {
 }
 
 model admin {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   name      String
   email     String
   password  String
@@ -18,7 +18,7 @@ model admin {
 }
 
 model inventory {
-  id          String     @id @default(cuid())
+  id          String     @id @default(uuid())
   name        String
   description String
   createdAt   DateTime   @default(now())
@@ -27,7 +27,7 @@ model inventory {
 }
 
 model products {
-  id          String     @id @default(cuid())
+  id          String     @id @default(uuid())
   inventoryId String?
   name        String
   description String?
@@ -37,4 +37,44 @@ model products {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   inventory   inventory? @relation(fields: [inventoryId], references: [id])
+
+  cart_items cart_items[]
+}
+
+model carts {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart_items cart_items[]
+  orders     orders[]
+}
+
+model cart_items {
+  id        String   @id @default(uuid())
+  cartId    String?
+  productId String?
+  quantity  Int
+  sub_total Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart    carts?    @relation(fields: [cartId], references: [id])
+  product products? @relation(fields: [productId], references: [id])
+}
+
+model orders {
+  id           String   @id @default(uuid())
+  cartId       String?
+  status       String
+  total_amount Float
+  isExpired    Boolean
+  expiredAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  cart carts? @relation(fields: [cartId], references: [id])
 }
