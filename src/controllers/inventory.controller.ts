@@ -85,6 +85,25 @@ class InventoryController {
       });
     }
   };
+
+  getProducts = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const products = await InventoryService.getInventoryProducts(id);
+
+      res.status(200).json({
+        status: true,
+        message: "Get products by inventory",
+        data: products,
+      });
+    } catch (error: Error | any) {
+      res.status(500).json({
+        status: false,
+        message: error.message,
+        data: null,
+      });
+    }
+  };
 }
 
 export default new InventoryController();

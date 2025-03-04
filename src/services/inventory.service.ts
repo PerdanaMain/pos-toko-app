@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { IInventoryPayload, Inventory } from "../utils/interfaces";
+import { getUrlCloudinary } from "../utils/cloudinary";
 
 const prisma = new PrismaClient();
 
@@ -74,6 +75,49 @@ class InventoryService {
         id,
       },
     });
+  };
+
+  getInventoryProducts = async (id: string) => {
+    const fetch = await this.prisma.inventory.findFirst({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        products: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            price: true,
+            stock: true,
+            image: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
+    });
+
+    const inventory = {
+      id: fetch?.id,
+      name: fetch?.name,
+      description: fetch?.description,
+      products: fetch?.products.map((product) => ({
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        stock: product.stock,
+        image: product.image ? getUrlCloudinary(product?.image) : null,
+        createdAt: product.createdAt,
+        updatedAt: product.updatedAt,
+      })),
+    };
+
+    return inventory;
   };
 }
 

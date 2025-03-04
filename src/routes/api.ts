@@ -40,6 +40,8 @@ router.put(
 );
 router.delete(prefix + "/inventory/:id", InventoryController.delete);
 
+router.get(prefix + "/inventory/:id/products", InventoryController.getProducts);
+
 // PRODUCT ROUTES
 router.get(prefix + "/products", ProductController.index);
 router.get(prefix + "/products/:id", ProductController.show);
