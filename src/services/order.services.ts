@@ -8,6 +8,27 @@ class OrderServices {
     this.prisma = prisma;
   }
 
+  getAllOrders = async () => {
+    return await this.prisma.orders.findMany({
+      include: {
+        cart: {
+          include: {
+            cart_items: {
+              select: {
+                id: true,
+                cartId: true,
+                productId: true,
+                quantity: true,
+                sub_total: true,
+                product: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  };
+
   getOrderById = async (orderId: string) => {
     return await this.prisma.orders.findUnique({
       where: {
@@ -38,6 +59,10 @@ class OrderServices {
 
       if (!cart) {
         throw new Error("Cart not found");
+      }
+
+      if (cart?.isDeleted) {
+        throw new Error("Cart already paid");
       }
 
       const total_amount = cart?.cart_items

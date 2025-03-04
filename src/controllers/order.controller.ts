@@ -3,6 +3,19 @@ import OrderServices from "../services/order.services";
 import CartServices from "../services/cart.services";
 
 class OrderController {
+  index = async (req: Request, res: Response) => {
+    try {
+      const orderrs = await OrderServices.getAllOrders();
+
+      res.status(200).json({
+        status: true,
+        data: { invoices: orderrs },
+        message: "Invoices fetched successfully",
+      });
+    } catch (error: Error | any) {
+      res.status(500).json({ status: false, message: error?.message });
+    }
+  };
   show = async (req: Request, res: Response) => {
     try {
       const { orderId } = req.params;
@@ -11,7 +24,7 @@ class OrderController {
       res.status(200).json({
         status: true,
         data: { invoice: order },
-        message: "Order created",
+        message: "Invoice fetched successfully",
       });
     } catch (error: Error | any) {
       res.status(500).json({ status: false, message: error?.message });
@@ -25,7 +38,7 @@ class OrderController {
       res.status(201).json({
         status: true,
         data: { invoice: order },
-        message: "Order created",
+        message: "Invoice created successfully",
       });
     } catch (error: Error | any) {
       res.status(500).json({ status: false, message: error?.message });
