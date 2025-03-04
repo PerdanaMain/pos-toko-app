@@ -53,6 +53,50 @@ class OrderServices {
     });
   };
 
+  getOrdersByDate = async (startDate: string, endDate: string) => {
+    return await this.prisma.orders.findMany({
+      where: {
+        createdAt: {
+          gte: new Date(startDate),
+          lte: new Date(endDate),
+        },
+      },
+    });
+  };
+
+  getStatistics = async (startDate?: string, endDate?: string) => {
+    if (!startDate && !endDate) {
+      throw new Error("At least one of start date or end date is required");
+    }
+
+    const whereClause: any = {};
+    if (startDate) {
+      whereClause.createdAt = {
+        ...whereClause.createdAt,
+        gte: new Date(startDate),
+      };
+    }
+    if (endDate) {
+      whereClause.createdAt = {
+        ...whereClause.createdAt,
+        lte: new Date(endDate),
+      };
+    }
+
+    const orders = await this.prisma.orders.findMany({
+      where: whereClause,
+    });
+
+    const total_amount = orders
+      .map((order: { total_amount: number }) => order.total_amount)
+      .reduce((a: number, b: number) => a + b, 0);
+
+    return {
+      total_orders: orders.length,
+      total_amount,
+    };
+  };
+
   createOrder = async (cartId: string) => {
     try {
       const cart = await CartServices.getCartById(cartId);

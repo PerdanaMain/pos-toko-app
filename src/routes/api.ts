@@ -86,6 +86,11 @@ router.post(
 
 // ORDER ROUTES
 router.get(prefix + "/invoices", Verify.verifyToken, OrderController.index);
+router.get(
+  prefix + "/statistics",
+  Verify.verifyToken,
+  OrderController.statistics
+);
 router.get(prefix + "/invoice/:orderId", OrderController.show);
 router.post(prefix + "/checkout/:cartId", OrderController.create);
 
