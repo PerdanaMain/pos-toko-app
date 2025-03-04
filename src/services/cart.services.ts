@@ -13,6 +13,7 @@ class CartServices {
     const carts = await this.prisma.carts.findMany({
       where: {
         email,
+        isDeleted: false,
       },
       include: {
         cart_items: {
@@ -28,6 +29,26 @@ class CartServices {
     }
 
     return carts;
+  };
+
+  getCartById = async (id: string): Promise<any | null> => {
+    return await this.prisma.carts.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        cart_items: {
+          select: {
+            id: true,
+            cartId: true,
+            productId: true,
+            quantity: true,
+            sub_total: true,
+            product: true,
+          },
+        },
+      },
+    });
   };
 
   createCart = async (data: ICartPayload): Promise<Cart> => {
@@ -59,6 +80,19 @@ class CartServices {
             };
           }),
         },
+      },
+    });
+
+    return cart;
+  };
+
+  updateCartAfterOrder = async (cartId: string): Promise<Cart> => {
+    const cart = await this.prisma.carts.update({
+      where: {
+        id: cartId,
+      },
+      data: {
+        isDeleted: true,
       },
     });
 

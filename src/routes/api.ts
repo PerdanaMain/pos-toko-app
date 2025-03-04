@@ -3,6 +3,7 @@ import AuthController from "../controllers/auth.controller";
 import InventoryController from "../controllers/inventory.controller";
 import ProductController from "../controllers/product.controller";
 import CartController from "../controllers/cart.controller";
+import OrderController from "../controllers/order.controller";
 import Validation from "../middlewares/validation.middleware";
 import Verify from "../middlewares/verify.middleware";
 import Schema from "../utils/schema";
@@ -82,5 +83,9 @@ router.post(
   Validation.validateRequest(Schema.cartSchema),
   CartController.create
 );
+
+// ORDER ROUTES
+router.get(prefix + "/invoice/:orderId", OrderController.show);
+router.post(prefix + "/checkout/:cartId", OrderController.create);
 
 export default router;
