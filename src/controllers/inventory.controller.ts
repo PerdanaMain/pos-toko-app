@@ -5,6 +5,7 @@ class InventoryController {
   index = async (req: Request, res: Response) => {
     try {
       const inventories = await InventoryService.getAllInventories();
+
       res.status(200).json({
         status: true,
         message: "Inventory index",

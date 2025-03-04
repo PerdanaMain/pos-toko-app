@@ -1,3 +1,6 @@
+import { Request } from "express";
+import { JwtPayload } from "jsonwebtoken";
+
 export interface Admin {
   id: string;
   name: string;
@@ -57,4 +60,8 @@ export interface IProductPayload {
   description: string;
   stock: number;
   inventoryId: string;
+}
+
+export interface IUserToken extends Request {
+  token: string | JwtPayload;
 }
