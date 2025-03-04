@@ -19,6 +19,7 @@ export interface Product {
   price: number | null;
   image: string | null;
   stock: number | null;
+  inventory: Inventory | null;
   createdAt: Date;
   updatedAt: Date;
 }

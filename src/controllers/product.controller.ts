@@ -48,5 +48,75 @@ class ProductController {
       });
     }
   };
+
+  show = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const product = await ProductServices.getProduct(id);
+
+      res.status(200).json({
+        status: true,
+        message: "Product retrieved successfully",
+        data: product,
+      });
+    } catch (error: Error | any) {
+      res.status(500).json({
+        status: false,
+        message: error.message,
+        data: null,
+      });
+    }
+  };
+
+  update = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { name, price, description, stock, inventoryId } = req.body;
+      const image = req.file;
+
+      await ProductServices.updateProduct(
+        id,
+        {
+          name,
+          price,
+          description,
+          stock,
+          inventoryId,
+        },
+        image
+      );
+
+      res.status(200).json({
+        status: true,
+        message: "Product updated successfully",
+        data: null,
+      });
+    } catch (error: Error | any) {
+      res.status(500).json({
+        status: false,
+        message: error.message,
+        data: null,
+      });
+    }
+  };
+
+  destroy = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      await ProductServices.deleteProduct(id);
+
+      res.status(200).json({
+        status: true,
+        message: "Product deleted successfully",
+        data: null,
+      });
+    } catch (error: Error | any) {
+      res.status(500).json({
+        status: false,
+        message: error.message,
+        data: null,
+      });
+    }
+  };
 }
 export default new ProductController();

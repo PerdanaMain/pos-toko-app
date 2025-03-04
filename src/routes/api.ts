@@ -42,10 +42,17 @@ router.delete(prefix + "/inventory/:id", InventoryController.delete);
 
 // PRODUCT ROUTES
 router.get(prefix + "/products", ProductController.index);
+router.get(prefix + "/products/:id", ProductController.show);
 router.post(
   prefix + "/products",
   upload.single("image"),
   ProductController.create
 );
+router.put(
+  prefix + "/products/:id",
+  upload.single("image"),
+  ProductController.update
+);
+router.delete(prefix + "/products/:id", ProductController.destroy);
 
 export default router;

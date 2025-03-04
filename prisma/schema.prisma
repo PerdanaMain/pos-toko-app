@@ -36,5 +36,5 @@ model products {
   stock       Int?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  inventories inventory? @relation(fields: [inventoryId], references: [id])
+  inventory   inventory? @relation(fields: [inventoryId], references: [id])
 }
