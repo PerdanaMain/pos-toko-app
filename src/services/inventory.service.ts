@@ -11,11 +11,11 @@ class InventoryService {
   }
 
   getAllInventories = async (): Promise<Inventory[]> => {
-    return await this.prisma.inventories.findMany();
+    return await this.prisma.inventory.findMany();
   };
 
   createInventory = async (payload: IInventoryPayload): Promise<Inventory> => {
-    const exist = await this.prisma.inventories.findFirst({
+    const exist = await this.prisma.inventory.findFirst({
       where: {
         name: payload.name,
       },
@@ -25,7 +25,7 @@ class InventoryService {
       return Promise.reject(new Error("Inventory already exists"));
     }
 
-    return await this.prisma.inventories.create({
+    return await this.prisma.inventory.create({
       data: {
         name: payload.name,
         description: payload.description,
@@ -37,7 +37,7 @@ class InventoryService {
     id: string,
     payload: IInventoryPayload
   ): Promise<Inventory> => {
-    const exist = await this.prisma.inventories.findFirst({
+    const exist = await this.prisma.inventory.findFirst({
       where: {
         id,
       },
@@ -47,7 +47,7 @@ class InventoryService {
       return Promise.reject(new Error("Inventory not found"));
     }
 
-    return await this.prisma.inventories.update({
+    return await this.prisma.inventory.update({
       where: {
         id,
       },
@@ -59,7 +59,7 @@ class InventoryService {
   };
 
   deleteInventory = async (id: string): Promise<Inventory> => {
-    const exist = await this.prisma.inventories.findFirst({
+    const exist = await this.prisma.inventory.findFirst({
       where: {
         id,
       },
@@ -69,7 +69,7 @@ class InventoryService {
       return Promise.reject(new Error("Inventory not found"));
     }
 
-    return await this.prisma.inventories.delete({
+    return await this.prisma.inventory.delete({
       where: {
         id,
       },

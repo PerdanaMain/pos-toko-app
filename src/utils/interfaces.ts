@@ -11,6 +11,18 @@ export interface Inventory {
   description: string;
 }
 
+export interface Product {
+  name: string;
+  id: string;
+  inventoryId: string | null;
+  description: string | null;
+  price: number | null;
+  image: string | null;
+  stock: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface IRegisterPayload {
   name: string;
   email: string;
@@ -36,4 +48,12 @@ export interface ILoginResponse {
 export interface IInventoryPayload {
   name: string;
   description: string;
+}
+
+export interface IProductPayload {
+  name: string;
+  price: number;
+  description: string;
+  stock: number;
+  inventoryId: string;
 }

@@ -17,7 +17,7 @@ model admin {
   updatedAt DateTime @updatedAt
 }
 
-model inventories {
+model inventory {
   id          String     @id @default(cuid())
   name        String
   description String
@@ -27,12 +27,14 @@ model inventories {
 }
 
 model products {
-  id          String      @id @default(cuid())
+  id          String     @id @default(cuid())
+  inventoryId String?
   name        String
-  description String
-  price       Float
-  inventoryId String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  inventories inventories @relation(fields: [inventoryId], references: [id])
+  description String?
+  price       Float?
+  image       String?
+  stock       Int?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  inventories inventory? @relation(fields: [inventoryId], references: [id])
 }
