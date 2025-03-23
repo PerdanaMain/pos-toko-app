@@ -24,7 +24,7 @@ class CartController {
     try {
       const { name, email, phone, items } = req.body;
 
-      await CartServices.createCart({
+      const result = await CartServices.createCart({
         name,
         email,
         phone,
@@ -34,7 +34,7 @@ class CartController {
       res.status(201).json({
         status: true,
         message: "Cart created successfully",
-        data: null,
+        data: result,
       });
     } catch (error: Error | any) {
       res.status(500).json({
